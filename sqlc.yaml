@@ -1,0 +1,18 @@
+version: "2"
+sql:
+  - engine: "postgresql"
+    queries: "internal/connector/db/queries"
+    schema:
+      - "internal/connector/db/migrations/001_create_products.sql"
+    gen:
+      go:
+        package: "sqlc"
+        out: "internal/connector/db/sqlc"
+        emit_json_tags: true
+        emit_prepared_queries: true
+        emit_empty_slices: true
+        emit_interface: true
+        overrides:
+          - db_type: "pg_catalog.numeric"
+            go_type: "float64"
+        sql_package: "database/sql"

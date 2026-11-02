@@ -1,0 +1,56 @@
+@baseUrl = http://localhost:8010
+
+### Healthcheck
+GET {{baseUrl}}/healthz
+
+### Healthcheck (API csoport alatt)
+GET {{baseUrl}}/api/healthz
+
+### Termékek listázása (alapértelmezett: page=1, limit=20)
+GET {{baseUrl}}/api/products
+
+### Termékek listázása – 2. oldal, 5 elemmel
+GET {{baseUrl}}/api/products?page=2&limit=5
+
+### Termékek listázása – első oldal, 1 elem (lapozás tesztelése)
+GET {{baseUrl}}/api/products?page=1&limit=1
+
+### Hibás page paraméter (400-at kell visszaadnia)
+GET {{baseUrl}}/api/products?page=0
+
+### Hibás limit paraméter – túl nagy (400-at kell visszaadnia)
+GET {{baseUrl}}/api/products?limit=999
+
+### Hibás limit paraméter – negatív (400-at kell visszaadnia)
+GET {{baseUrl}}/api/products?limit=-1
+
+### Termék lekérése public_id alapján – érvényes UUID
+GET {{baseUrl}}/api/products/00000000-0000-0000-0000-000000000001
+
+### Termék lekérése – nem létező UUID (404-et kell visszaadnia)
+GET {{baseUrl}}/api/products/00000000-0000-0000-0000-000000000999
+
+### Termék lekérése – érvénytelen UUID formátum (404-et kell visszaadnia)
+GET {{baseUrl}}/api/products/nem-uuid-ez
+
+### Termék létrehozása
+POST {{baseUrl}}/api/products
+Content-Type: application/json
+
+{
+  "name": "Naruto Uzumaki figura",
+  "slug": "naruto-uzumaki-figura",
+  "short_description": "Naruto Shippuden sorozatból",
+  "description": "Részletes Naruto figura, 25cm magas, PVC anyagból készült.",
+  "franchise": "Naruto",
+  "character": "Naruto Uzumaki",
+  "price": 8990,
+  "currency": "HUF",
+  "stock": 10,
+  "main_image_url": "https://example.com/naruto.jpg",
+  "type": "figure",
+  "is_featured": false
+}
+
+### Termék frissítése (501 egyelőre)
+PUT {{baseUrl}}/api/products/00000000-0000-0000-0000-000000000001
